@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BagController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,17 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+//Bags route
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::controller(BagController::class)->group(function(){
+        Route::get('/bags','index');
+        Route::post('/bags','addProduct');
+        Route::get('/bags/{id}','read');
+        Route::post('/bags/edit','update');
+        Route::delete('/bags/{id}','delete');
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
