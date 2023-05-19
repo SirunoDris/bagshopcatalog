@@ -8,35 +8,28 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <h1>CATALOGO DE BOLSOS</h1>
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <table>
-                        <thead>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Material</th>
-                            <th>Comprar</th>
-                        </thead>
-                        <tbody>
-                            @foreach($bags as $bag)
-                            <tr>
-                                <td>{{$bag['name']}} </td>
-                                <td>{{$bag['price']}}</td>
-                                <td>{{$bag['material']}}</td>
-                                <form action="/bags" method="POST">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
+                <div class="d-flex flex-wrap p-6 text-gray-900">
+                @foreach($bags as $bag)
+                    <div class="card mr-1" style="width: 18rem;">
+                        <img class="card-img-top" src="https://m.media-amazon.com/images/I/61zzJzljcKL._CR0,204,1224,1224_UX256.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{$bag['name']}}</h5>
+                            <h5 class="card-subtitle mb-2 text-muted">{{$bag['price']}} €</h5>
+                            <p class="card-text">{{$bag['material']}}</p>
+                            <form action="/bags" method="POST">
                                     @csrf
                                     <input type="hidden" name="bag_id" value="{{$bag['id']}}">
                                     <input type="hidden" name="bag_name" value="{{$bag['name']}}">
                                     <input type="hidden" name="bag_price" value="{{$bag['price']}}">
                                     <input type="hidden" name="bag_material" value="{{$bag['material']}}">
-                                    <td><button type="submit">COMPRAR</button></td>
+                                    <td><button class="btn btn-outline-primary" type="submit">Añadir carrito</button></td>
                                 </form>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                            
+                        </div>
+                    </div>
+                    @endforeach
+                      
+                </div>
                 </div>
                 @if (session('success'))
                 <script>

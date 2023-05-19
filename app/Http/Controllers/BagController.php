@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 class BagController extends Controller
 {
      /**
-     * Display a listing of the resource.
+     * Muestra todos los bolsos del catalogo
      */
     public function index()
     {
@@ -27,7 +27,7 @@ class BagController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Añade el producto en un carrito (session)
      */
     public function addProduct(Request $request)
     {
@@ -48,11 +48,9 @@ class BagController extends Controller
     
         Session::put('cart', $cart);
         $message = 'Bolso añadido al carrito';
-        session()->flash('success', $message);
+        session()->flash('success', $message); //alert de carro añadido
 
-        // Redirigir a la página anterior (opcional)
         return back();
-        //return back()->with('success', $message);
     }
         
         
@@ -60,9 +58,25 @@ class BagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function buy(Request $request)
     {
-        //
+        $cart = Session::get('cart', []);
+        // dd($carrito);
+        $hora = now()->format('Y-m-d H:i:s');
+
+        $history = $request->session()->get('history', []);
+        // dd($historial);
+        $history[] = [
+            'carrito' => $cart,
+            'hora' => $hora,
+        ];
+        $request->session()->put('history', $history);
+
+
+        $request->session()->forget('cart');
+
+        // return redirect()->route('historial')->with('success', 'Compra realizada con éxito');
+        return back()->with('success', 'Todos los bolsos comprados');
     }
 
 }
