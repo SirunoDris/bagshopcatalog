@@ -34,7 +34,7 @@
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ url('/bags') }}">
                         <svg data-icon-name="bag-alt" data-style="flat-color" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-name="Flat Color" id="bag-alt" class="icon flat-color" width="48" height="48"><path style="fill:#652d90" d="M21.87,19.78l-1.78-16A2,2,0,0,0,18.1,2H5.9a2,2,0,0,0-2,1.78l-1.78,16a2,2,0,0,0,.5,1.55A2,2,0,0,0,4.12,22H19.88a2,2,0,0,0,1.49-.67A2,2,0,0,0,21.87,19.78Z" id="primary"></path><path style="fill: rgb(246, 146, 30);" d="M12,12A4,4,0,0,1,8,8V5a1,1,0,0,1,2,0V8a2,2,0,0,0,4,0V5a1,1,0,0,1,2,0V8A4,4,0,0,1,12,12Z" id="secondary"></path></svg>
                     </a>
                 </div>

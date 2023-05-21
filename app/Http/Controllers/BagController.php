@@ -94,7 +94,6 @@ class BagController extends Controller
     public function deleteRecord(Request $request)
     {
         $request->session()->forget('record');
-        
         return back()->with('success', 'Se ha borrado todo tu historial de compra');
     }
 }

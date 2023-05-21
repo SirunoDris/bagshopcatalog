@@ -53,7 +53,6 @@ class CartController extends Controller
         }
      
         for($i= 0;$i <= count($bag);$i++){
-           
             $bagId = $bag[$i]['bag_id'];
             if($bagId == $id){
                 unset($bag[$i]);

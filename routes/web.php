@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard',['name' => 'Hermos@']);
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard',['name' => 'Hermos@']);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware(['auth:sanctum'])->group(function(){
@@ -40,6 +41,15 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::post('/cart','buyAllBags');
         Route::delete('/cart/{id}','delete')->name('cart.delete');
     });
+
+    // Dashboard para gestión de catalog y user 
+    Route::controller(DashboardController::class)->group(function(){
+        Route::get('/dashboard','index');
+        Route::post('/dashboard','create');
+        Route::delete('/dashboard/{id}','destroy');
+
+    });
+    
     
 });
 
