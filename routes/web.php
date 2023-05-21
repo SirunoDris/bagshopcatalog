@@ -25,28 +25,23 @@ Route::get('/dashboard', function () {
     return view('dashboard',['name' => 'Hermos@']);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//Bags Catalog route
+
 Route::middleware(['auth:sanctum'])->group(function(){
+    // Bag products
     Route::controller(BagController::class)->group(function(){
         Route::get('/bags','index');
         Route::post('/bags','addProduct');
-        Route::get('/bags/{id}','read');
-        Route::post('/bags/edit','update');
-        Route::delete('/bags/{id}','delete');
+        Route::get('/record','record');
+        Route::post('/delete','deleteRecord');
     });
-});
-
-//Bags cart route
-//Bags route
-Route::middleware(['auth:sanctum'])->group(function(){
+    // Carrito compra
     Route::controller(CartController::class)->group(function(){
         Route::get('/cart','index');
-        Route::get('/cart/{id}','read');
-        Route::post('/cart/edit','update');
-        Route::delete('/bags/{id}','delete')->name('cart.delete');
+        Route::post('/cart','buyAllBags');
+        Route::delete('/cart/{id}','delete')->name('cart.delete');
     });
+    
 });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

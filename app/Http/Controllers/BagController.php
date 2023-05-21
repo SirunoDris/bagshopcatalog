@@ -79,4 +79,22 @@ class BagController extends Controller
         return back()->with('success', 'Todos los bolsos comprados');
     }
 
+    /**
+     * Muestra el historial de la compra que realizó el cliente
+     */
+    public function record(){
+        $record = Session::get('record',[]);
+
+        return view('record')->with('record',$record);
+    }
+
+    /**
+     * BORRA el historial de la compra 
+     */
+    public function deleteRecord(Request $request)
+    {
+        $request->session()->forget('record');
+        
+        return back()->with('success', 'Se ha borrado todo tu historial de compra');
+    }
 }

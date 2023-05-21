@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-     /**
-     * Muestra todos los bolsos que añadiste al carrito
-     */
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -23,38 +18,50 @@ class CartController extends Controller
         return view('cart')->with('cart',$cart);
     }
 
- 
     /**
-     * Display all the bags
-     * 
+     * All items added to cart proceed to be buyed and save at the record (historial).
+     * Deletes Session Cart
+     * Creates Sesson Record
      */
-    public function read($id)
+    public function buyAllBags(Request $request)
     {
- 
+        $cart = Session::get('cart', []);
+        $time = now()->format('Y-m-d H:i:s');
+
+        $record = $request->session()->get('record', []); //new
+        // dd($record);
+        $record[] = [
+            'cart' => $cart,
+            'time' => $time,
+        ];
+        $request->session()->put('record', $record);
+
+        $request->session()->forget('cart');
+
+        return back()->with('success', 'Compra realizada con exito. Yupiii!');
     }
 
     /**
-     * Actualiza el registro del Bag por id
+     * Remove the specified resource from storage.
      */
-    public function update(Request $request)
+    public function delete($id)
     {
-        
-    }
-
-    /**
-     * Elimina el Bag por ID
-     */
-function delete($id)
-    {
-        $bag = Purchase::find($id);
+        $bag = Session::get('cart',[]);
+        //dd($bag);
         if(!$bag){
             return "bag no encontrada";
         }
-        $bag->delete();
-
-        // return response()->json(['message' => 'bag borrada'], 204);
-        return back()->with('success', 'bag borrada');
-
+     
+        for($i= 0;$i <= count($bag);$i++){
+           
+            $bagId = $bag[$i]['bag_id'];
+            if($bagId == $id){
+                unset($bag[$i]);
+                $bag = array_values($bag);
+                Session::put('cart', $bag);
+                break;
+            }   
+        }   
+        return back()->with('success', 'Bag del cart borrada... snif🥺');
     }
-
 }

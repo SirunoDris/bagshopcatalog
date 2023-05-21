@@ -27,8 +27,7 @@
                                 </form>
                         </div>
                     </div>
-                    @endforeach
-                      
+                    @endforeach           
                 </div>
                 </div>
                 @if (session('success'))
