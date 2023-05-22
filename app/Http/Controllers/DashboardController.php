@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 
@@ -30,21 +32,47 @@ class DashboardController extends Controller
      */
     public function create(Request $request)
     {
-        $client = new Client();
-        //dd($request->all());
+        $userID = Auth::id();
+        
         $data = [
             'name' => $request->input('pname'),
             'price' => $request->input('pprice'),
-            'material' => $request->input('pmaterial')
+            'material' => $request->input('pmaterial'),
+            'user_id' => $userID 
         ];
 
-        $json = json_encode($data);
+        $response = Http::withToken('Bearer 3|Oo3J3nknCnGsjvP8vpwmdyN4WXtNjA1DF5BrZOi0')
+        ->post('https://magical-lamarr.82-223-123-69.plesk.page/api/bags', $data);
+        
+        if ($response->successful()) {
+            return back()->with('success', '¡Nueva Bag añadida al catálogo!');
+        } else {
+            return back()->with('error', 'Hubo un problema al enviar los datos.');
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $id = $request->input('id');
+        $userID = Auth::id();
+        dd($request->all());
+        $data = [
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'material' => $request->input('material'),
+            'user_id' => $userID 
+        ];
+        //dd($data);
 
         $response = Http::withToken('Bearer 3|Oo3J3nknCnGsjvP8vpwmdyN4WXtNjA1DF5BrZOi0')
-        ->withBody($json, 'application/json')
-        ->post('https://magical-lamarr.82-223-123-69.plesk.page/api/bags');
+        ->post('https://magical-lamarr.82-223-123-69.plesk.page/api/bags/'.$id,$data);
+
         
-        return back()->with('success', '¡Nueva Bag añadida al catalogo!');
+        if ($response->successful()) {
+            return back()->with('success', '¡Bag actualizada en el catalogo!');
+        } else {
+            return back()->with('error', 'Hubo un problema al enviar los datos.');
+        }
     }
 
     /**

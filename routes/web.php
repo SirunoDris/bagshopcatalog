@@ -46,7 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::controller(DashboardController::class)->group(function(){
         Route::get('/dashboard','index');
         Route::post('/dashboard','create');
-        Route::delete('/dashboard/{id}','destroy');
+        Route::post('/dashboard/{id}/edit','update');
+        Route::post('/dashboard/{id}','destroy');
 
     });
     

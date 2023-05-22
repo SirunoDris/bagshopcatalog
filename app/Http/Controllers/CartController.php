@@ -47,7 +47,6 @@ class CartController extends Controller
     public function delete($id)
     {
         $bag = Session::get('cart',[]);
-        //dd($bag);
         if(!$bag){
             return "bag no encontrada";
         }
